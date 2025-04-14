@@ -6,7 +6,7 @@ function setup() {
   canvas.parent("p5-canvas-container");
 
 
-  dancer = new Silken_Wraith(width / 2, height / 2);
+  dancer = new Waltz(width / 2, height / 2);
 }
 
 function draw() {
@@ -19,7 +19,7 @@ function draw() {
 }
 
 
-class Silken_Wraith {
+class Waltz {
   constructor(startX, startY) {
     this.x = startX;
     this.y = startY;
