@@ -1,4 +1,4 @@
-let the_circles = [], lines = [];
+let the_circles = [], lines = [], images = [];
 let showWhiteCircle = false;
 let circleRadius = 0;
 let maxRadius = 200;
@@ -6,14 +6,19 @@ let lastX = 0, lastY = 0;
 
 let isHoveringOverLine = false;
 
-let hoverStartTime = 1000000000;  // 用于开始计时
+let hoverStartTime = 1000000000;
 let vanishStartTime = 1000000000;
-let circlePos = { x: 0, y: 0 }; // 白色圆圈的位置
+let circlePos = { x: 0, y: 0 };
+
+function preload() {
+  for (let i = 1; i <= 9; i++) {
+    images.push(loadImage("assets/image${i}.jpg"));
+  }
+}
 
 function setup() {
   let canvas = createCanvas(800, 500);
-  // canvas.parent("p5-canvas-container");
-
+  canvas.parent("p5-canvas-container");
   for (let i = 0; i < 400; i++) {
     let x = random(width);
     let y = random(height);
@@ -31,21 +36,18 @@ function setup() {
 function draw() {
   background(0);
 
-  // 更新和显示所有白点
   for (let c of the_circles) {
     c.update();
     c.display();
   }
 
-  // 检查是否有连线接近
   drawBigCircle();
   checkIfClose();
   checkWhetherToChoose();
 
-  // 如果需要，显示白色圆圈
   if (showWhiteCircle) {
     noStroke();
-    fill(255, 180); // 半透明白色
+    fill(255, 180);
     circle(circlePos.x, circlePos.y, circleRadius);
 
     if (circleRadius < maxRadius) {
@@ -53,7 +55,6 @@ function draw() {
     }
   }
   lastX = mouseX, lastY = mouseY;
-  // console.log(hoverStartTime)
 }
 
 class MyCircle {
@@ -81,7 +82,7 @@ class MyCircle {
     push();
     translate(this.x, this.y);
     fill(255);
-    circle(0, 0, 5); // 绘制小白点
+    circle(0, 0, 5); 
     pop();
   }
 }
@@ -98,10 +99,9 @@ let bigY = [];
 let alpha = 180;
 
 function drawBigCircle() {
-  console.log(bigX.length);
   for (let i = 0; i < bigX.length; i++) {
     noStroke();
-    fill(255, alpha); // 半透明白色
+    fill(255, alpha);
     circle(bigX[i], bigY[i], maxRadius);
   }
   if (millis() - vanishStartTime >= 15000) alpha -= 1;
@@ -148,31 +148,24 @@ function checkWhetherToChoose() {
       if (dToLine < 10) {
         isHoveringOverLine = true;
 
-        // 鼠标悬浮在连线附近时开始计时
         if (hoverStartTime === 1000000000) {
           hoverStartTime = millis();
-          circleRadius = 0;  // 每次显示时重置圆圈半径
+          circleRadius = 0; 
         }
 
-        // 如果鼠标悬停超过3秒，显示白色圆圈
         if (millis() - hoverStartTime >= 500 && bigX.length < 3) {
-          // console.log(millis(), hoverStartTime)
           showWhiteCircle = true;
           circlePos = { x: mouseX, y: mouseY };
         }
       }
     }
   }
-  // }
 
-  // 如果鼠标离开连线区域，隐藏白色圆圈
   if (lastX != mouseX || lastY != mouseY){
     isHoveringOverLine = false;
     showWhiteCircle = false;
-    hoverStartTime = 1000000000;  // 重置计时器
-    // lines = []
+    hoverStartTime = 1000000000; 
   }
-  // console.log(hoverStartTime)
 }
 
 function distToSegment(px, py, x1, y1, x2, y2) {
