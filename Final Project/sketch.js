@@ -12,7 +12,7 @@ let canvasHeight = 525;
 let STORY = 0, STARMAP = 1, PHOTOBOOTH = 2, ENDING = 3;
 let state = STORY;
 
-let storyFrames = 1;
+let storyFrames = 1250;
 let storyText = [
   "[System Alert]: Neural Link Disrupted\nYour stream of consciousness is drifting off its assigned path.",
   "Signal instability detected...\nYou've been auto-connected to Abandoned Database No.073-A.\n ⚠️ Warning: This database is located in the Forgetting Zone.\nIt contains corrupted, scattered, and sealed fragments of lost memories.",
